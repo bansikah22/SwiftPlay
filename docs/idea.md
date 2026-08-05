@@ -1,50 +1,180 @@
 # PortMedic
 
-*A lightweight macOS utility for managing processes occupying network ports.*
+> **The fastest way to free a busy development port on macOS.**
 
-## Overview
+*A lightweight, native macOS developer utility built with Swift and SwiftUI for managing development ports and processes.*
 
-PortMedic is a native macOS desktop application built with **Swift** and **SwiftUI** that helps developers quickly identify and terminate processes occupying network ports.
+---
 
-Instead of repeatedly using terminal commands such as:
+# Project Vision
+
+PortMedic is more than a port killer.
+
+It is a lightweight **Developer Productivity Utility** designed to eliminate repetitive development tasks related to managing local processes and occupied network ports.
+
+The first release focuses on solving one of the most common frustrations developers face every day:
+
+> **"Address already in use"**
+
+Rather than forcing developers to remember terminal commands or open a heavyweight IDE, PortMedic provides a fast, native, one-click experience that integrates seamlessly with macOS.
+
+Our long-term vision is to make PortMedic the go-to utility that quietly lives in the background and helps developers stay focused on writing code—not managing processes.
+
+---
+
+# Mission
+
+To eliminate repetitive command-line workflows involved in managing development ports while providing the fastest, lightest, and most intuitive native macOS experience for developers.
+
+---
+
+# Why PortMedic?
+
+During software development it is common for applications to crash, fail to shut down properly, or leave ports occupied.
+
+Developers are often interrupted by messages such as:
+
+```
+Address already in use
+
+Port 8080 is already occupied.
+```
+
+The typical workflow requires opening the Terminal and executing commands like:
 
 ```bash
 lsof -i :8080
 kill -9 <PID>
 ```
 
-PortMedic provides a clean graphical interface where developers can view active ports and release them with a single click.
+or
 
-The application is designed to be lightweight, fast, and focused on solving one common developer pain point.
+```bash
+pkill -f java
+```
+
+Although these commands are simple, developers execute them countless times throughout the week.
+
+PortMedic removes this repetitive workflow by allowing developers to release occupied ports with a single click.
 
 ---
 
 # Problem Statement
 
-During software development, it is common for applications to leave network ports occupied after crashing or not shutting down properly.
+Developers lose valuable time switching between their IDE and the Terminal simply to identify and terminate a process occupying a network port.
 
-Developers currently need to:
+The traditional workflow involves:
 
-1. Open the Terminal.
-2. Find the process using a port.
-3. Copy the Process ID (PID).
-4. Execute another command to terminate the process.
-5. Verify that the port has been released.
+1. Opening Terminal.
+2. Finding the process using a port.
+3. Identifying the Process ID (PID).
+4. Running another command to terminate it.
+5. Returning to the IDE.
+6. Restarting the application.
 
-This repetitive workflow interrupts productivity and slows down development.
+This repetitive context switching slows development and interrupts focus.
+
+---
+
+# Existing Solutions
+
+There are already excellent tools that solve this problem, including:
+
+- PortPal
+- Portless
+- Command-line utilities
+- Shell aliases
+- VS Code extensions
+
+These tools demonstrate that this is a genuine problem experienced by developers worldwide.
+
+However, many existing solutions require developers to:
+
+- Open VS Code
+- Use a plugin
+- Remember terminal commands
+- Work inside another application
+- Use cross-platform desktop frameworks
+
+PortMedic takes a different approach.
+
+Instead of being another plugin or command-line tool, it is designed as a **native macOS utility** that is always available, launches instantly, consumes minimal system resources, and integrates naturally into the macOS ecosystem.
+
+---
+
+# Why Build It in Swift?
+
+Swift provides several advantages for this type of utility.
+
+## Native Experience
+
+PortMedic feels like a true macOS application rather than a web application wrapped inside a desktop shell.
+
+## Lightweight
+
+Swift applications typically have:
+
+- Faster startup
+- Lower memory usage
+- Better battery efficiency
+- Smaller resource footprint
+
+Compared to opening a heavyweight IDE simply to access a port management plugin, launching PortMedic should feel almost instantaneous.
+
+## macOS Integration
+
+Swift allows us to take advantage of native macOS capabilities such as:
+
+- Menu Bar applications
+- Native notifications
+- Keyboard shortcuts
+- Native dialogs
+- Accessibility support
+- System appearance (Dark Mode)
+
+## Learning Opportunity
+
+PortMedic is also an excellent project for learning:
+
+- Swift
+- SwiftUI
+- MVVM
+- Native macOS APIs
+- Process management
+- Asynchronous programming
+- System programming concepts
+
+---
+
+# Design Philosophy
+
+Every feature added to PortMedic must satisfy one simple rule:
+
+> **Does this save the developer time?**
+
+If the answer is no, it probably doesn't belong in the application.
+
+Our principles are:
+
+- Lightweight
+- Native
+- Fast
+- Minimal
+- Reliable
+- Developer-first
 
 ---
 
 # Goal
 
-Build a lightweight native macOS application that allows developers to:
+Build a lightweight native macOS application that enables developers to:
 
-- View all ports currently in use.
-- Search for a specific port or process.
-- View the Process ID (PID) and application name.
-- Terminate the process with a single click.
-- Refresh the list automatically or manually.
-- Release occupied ports without opening the Terminal.
+- View active ports.
+- Search ports or processes.
+- View process information.
+- Release ports with one click.
+- Eliminate repetitive terminal commands.
+- Stay focused on development.
 
 ---
 
@@ -54,17 +184,18 @@ Build a lightweight native macOS application that allows developers to:
 - Full Stack Developers
 - DevOps Engineers
 - Mobile Developers
-- Students learning software development
-- Anyone who regularly runs local development servers
+- Students
+- Software Engineers
+- Anyone running local development environments
 
 ---
 
 # Tech Stack
 
 - **Language:** Swift
-- **Framework:** SwiftUI
-- **Platform:** macOS
+- **UI Framework:** SwiftUI
 - **Architecture:** MVVM
+- **Platform:** macOS
 - **System APIs:** Foundation (`Process`, `Pipe`)
 - **Minimum macOS Version:** TBD
 
@@ -78,11 +209,9 @@ No internet connection required.
 
 # Core Features (MVP)
 
-## 1. View Active Ports
+## View Active Ports
 
-Display all listening ports currently in use.
-
-Example:
+Display all active listening ports.
 
 | Port | PID | Process |
 |------|------|---------|
@@ -92,86 +221,125 @@ Example:
 
 ---
 
-## 2. Search
+## Search
 
 Search by:
 
-- Port number
-- Process name
+- Port
+- Process
+- PID
 
-Examples:
+---
+
+## One-Click Kill
+
+Terminate a process with one click.
 
 ```
-8080
-```
-
-or
-
-```
-java
+Kill
 ```
 
 ---
 
-## 3. Kill Process
-
-Terminate a selected process with one click.
-
-Example:
-
-```
-[ Kill ]
-```
-
----
-
-## 4. Refresh
-
-Refresh the port list manually.
-
-```
-[ Refresh ]
-```
-
----
-
-## 5. Confirmation Dialog
+## Confirmation Dialog
 
 Prevent accidental termination.
 
-Example:
-
 ```
-Kill process "java" (PID 4512)?
+Kill Java (PID 4512)?
 
 Cancel      Kill
 ```
 
 ---
 
-# Planned Features
+## Refresh
+
+Refresh the list manually.
+
+---
 
 ## Auto Refresh
 
-Automatically refresh the list every few seconds.
+Automatically refresh running processes every few seconds.
+
+---
+
+# Advanced Features
+
+## Framework Detection
+
+Instead of showing only:
+
+```
+java
+```
+
+Display:
+
+```
+Spring Boot
+
+Ledger Service
+```
+
+or
+
+```
+Node
+
+BioFlow Backend
+```
+
+---
+
+## Project Detection
+
+Display the working directory of the running application whenever possible.
+
+Example:
+
+```
+~/Projects/Ledgers
+```
+
+This makes it easier to identify which project owns a port when multiple Java or Node processes are running.
+
+---
+
+## Smart Process Recognition
+
+Recognize common developer technologies such as:
+
+- Spring Boot
+- React
+- Vite
+- Next.js
+- Node.js
+- Docker
+- PostgreSQL
+- MySQL
+- Redis
+- MongoDB
+- Python
+
+Instead of generic process names, PortMedic will present meaningful information.
 
 ---
 
 ## Color Coding
 
-Differentiate ports visually.
-
 🟢 System Processes
 
 🟡 User Applications
 
-🔴 Unknown or Suspicious Processes
+🔴 Suspicious or Unknown Processes
 
 ---
 
 ## Favorites
 
-Pin frequently used development ports.
+Pin commonly used ports.
 
 Examples:
 
@@ -186,8 +354,6 @@ Examples:
 
 ## Kill by Process
 
-Terminate all instances of a process.
-
 Examples:
 
 - Kill all Java
@@ -198,11 +364,12 @@ Examples:
 
 ## Process Details
 
-Display additional information:
+Display:
 
 - PID
 - Process Name
-- Command
+- Executable
+- Working Directory
 - User
 - Port
 - Protocol
@@ -211,50 +378,17 @@ Display additional information:
 
 ## Notifications
 
-Show a native macOS notification after a process is terminated.
-
 Example:
 
 ```
-✓ Port 8080 released successfully
+✓ Port 8080 released successfully.
 ```
 
 ---
 
 ## History
 
-Keep a log of recently terminated processes.
-
-Example:
-
-| Time | Port | Process |
-|------|------|---------|
-| 10:31 | 8080 | java |
-| 10:45 | 3000 | node |
-
----
-
-## Menu Bar Mode
-
-Run as a lightweight menu bar application.
-
-Possible menu:
-
-```
-PortMedic
-
-8080  Java
-
-3000  Node
-
-5432  PostgreSQL
-
-Refresh
-
-Quit
-```
-
-This allows quick access without opening the main window.
+Maintain a history of recently terminated processes.
 
 ---
 
@@ -270,102 +404,185 @@ Quick actions:
 
 ## Open in Terminal
 
-Open the selected process directly in Terminal for advanced inspection.
+Inspect the selected process directly in Terminal.
 
 ---
 
-# Future Enhancements
+## Menu Bar Mode
 
-- Display CPU and Memory usage for each process.
-- Support both TCP and UDP ports.
-- Export process list to CSV.
-- Dark Mode optimization.
-- Keyboard shortcuts.
-- Detect ports commonly used by development frameworks.
-- Auto-detect failed application launches caused by occupied ports.
-- Monitor ports in real time.
-- Display application icons where possible.
+One of the signature features of PortMedic.
+
+Instead of opening a full application, developers can manage occupied ports directly from the macOS menu bar.
+
+Example:
+
+```
+PortMedic
+
+8080   Spring Boot
+
+3000   Node
+
+5432   PostgreSQL
+
+Refresh
+
+Quit
+```
+
+This makes releasing a port possible in just a few clicks without interrupting development.
+
+---
+
+# Future Roadmap
+
+PortMedic is envisioned as a broader **Developer Productivity Utility**.
+
+Future versions may include:
+
+- CPU usage
+- Memory usage
+- Real-time monitoring
+- Restart process
+- Export process list
+- Keyboard shortcuts
+- Application icons
+- Automatic framework detection improvements
+- Docker integration
+- Development service monitoring
+- Quick actions for common developer workflows
 
 ---
 
 # Non-Goals (Version 1)
 
-The first version will **not** include:
+To keep the first release lightweight and focused, it will **not** include:
 
-- Network monitoring
 - Firewall management
 - Remote machine support
-- Docker container management
-- Database integration
+- Network monitoring
 - Cloud synchronization
-- User authentication
-
-The focus is simplicity and speed.
+- Authentication
+- Database integration
 
 ---
 
 # User Workflow
 
-1. Launch PortMedic.
-2. View all active ports.
-3. Search for a port (optional).
-4. Select the process.
-5. Click **Kill**.
-6. Confirm the action.
-7. The application terminates the process.
-8. The list refreshes automatically.
-9. The port is now available.
+```
+Launch PortMedic
+        ↓
+View Active Ports
+        ↓
+Search (optional)
+        ↓
+Select Process
+        ↓
+Click Kill
+        ↓
+Confirm
+        ↓
+Port Released
+        ↓
+Continue Coding
+```
 
 ---
 
 # Example UI
 
 ```
---------------------------------------------------
+--------------------------------------------------------
 
-                 PortMedic
+                    PortMedic
 
---------------------------------------------------
+--------------------------------------------------------
 
 🔍 Search
 
-[___________________________]
+[______________________________________]
 
---------------------------------------------------
+--------------------------------------------------------
 
-PORT     PID      PROCESS          ACTION
+PORT     FRAMEWORK      PROCESS        ACTION
 
-3000     1921     node             Kill
+3000     React          node           Kill
 
-5432     3112     postgres         Kill
+5173     Vite           node           Kill
 
-8080     4512     java             Kill
+5432     PostgreSQL     postgres       Kill
 
-9090     6521     spring           Kill
+8080     Spring Boot    java           Kill
 
---------------------------------------------------
+--------------------------------------------------------
 
 Refresh
-
---------------------------------------------------
 ```
 
 ---
 
-# Why Build PortMedic?
+# Competitive Advantages
 
-PortMedic eliminates the need to remember terminal commands every time a development port becomes occupied.
-
-It improves developer productivity by replacing repetitive command-line workflows with a simple, native, one-click interface.
-
-Beyond being a practical daily utility, the project is an excellent way to learn macOS development with SwiftUI, process management, asynchronous programming, native system APIs, and modern application architecture.
+| Existing Solutions | PortMedic |
+|-------------------|-----------|
+| Often rely on terminal commands | Native graphical interface |
+| VS Code plugins require opening the IDE | Standalone macOS application |
+| Cross-platform frameworks | Native SwiftUI experience |
+| Generic process names | Framework-aware process detection |
+| Basic process killing | Developer productivity focused |
+| Designed for multiple platforms | Optimized specifically for macOS |
 
 ---
 
-# Project Vision
+# Why This Project?
 
-PortMedic aims to become a simple, fast, and reliable developer utility that stays out of the way while making one of the most common development tasks effortless: freeing occupied ports.
+PortMedic solves a real problem experienced by thousands of developers every day.
 
-The philosophy is:
+Research shows that developers frequently search for solutions to:
 
-> **One click. One second. One free port.**
+- Address already in use
+- Port already occupied
+- EADDRINUSE
+- How to kill a process on a port
+
+Existing projects and community discussions validate that this pain point is widespread.
+
+Rather than reinventing the idea, PortMedic aims to provide the **best native macOS experience** for solving it.
+
+---
+
+# Long-Term Vision
+
+PortMedic starts as a port management tool but is envisioned as a broader **Developer Productivity Utility** for macOS.
+
+As the project evolves, it can expand into helping developers monitor local development services, manage processes, identify frameworks, and streamline common development workflows—all while remaining lightweight, fast, and native.
+
+---
+
+# Philosophy
+
+> **Developers shouldn't have to leave their workflow to solve a common problem.**
+
+PortMedic exists to remove friction from development.
+
+One click.
+
+One second.
+
+One free port.
+
+One less interruption.
+
+## Menu Bar Integration
+
+PortMedic lives in the macOS menu bar, providing instant access without requiring developers to open a full application.
+
+The menu bar interface allows users to:
+
+- View active development ports.
+- Search ports instantly.
+- Kill a process with one click.
+- Refresh active processes.
+- Launch the full application when needed.
+
+This enables developers to resolve occupied ports in seconds without leaving their workflow.
